@@ -1,0 +1,54 @@
+{
+  "name": "parallax-loader",
+  "version": "1.0.0",
+  "description": "typescript based parallax loader for ini configuration file",
+  "main": "./dist/index.js",
+  "dependencies": {
+    "typescript": "^4.3.4",
+    "loader-utils": "^2.0.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^27.0.1",
+    "@types/node": "^15.12.4",
+    "@typescript-eslint/eslint-plugin": "^4.29.2",
+    "@typescript-eslint/parser": "^4.29.2",
+    "babel-jest": "^27.0.6",
+    "eslint": "^7.32.0",
+    "jest": "^27.0.6",
+    "rollup": "^2.53.2",
+    "rollup-plugin-typescript2": "^0.30.0",
+    "ts-jest": "^27.0.5"
+  },
+  "scripts": {
+    "build": "rollup -c",
+    "pub": "npm run build && npm publish",
+    "test": "jest",
+    "lint": "eslint src/**",
+    "genTS": "node ./dist/gen.js ./example/Config.ts ./example/main.ini",
+    "genJS": "node ./dist/gen.js ./example/Config.ts ./example/main.ini --js"
+  },
+  "keywords": [
+    "parallax",
+    "codegen",
+    "ini",
+    "typescript"
+  ],
+  "author": "David Zeng",
+  "license": "MIT",
+  "files": [
+    "/dist"
+  ],
+  "jest": {
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ],
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "testMatch": [
+      "<rootDir>/test/*.test.ts"
+    ]
+  }
+}
