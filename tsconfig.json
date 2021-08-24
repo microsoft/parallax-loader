@@ -1,0 +1,19 @@
+{
+    "compilerOptions": {
+      "target": "es5",
+      "module": "ESNext",
+      "outDir": "out",
+      "lib": ["ESNext"],
+      "allowJs": false,
+      "sourceMap": true,
+      "experimentalDecorators": false,
+      "noUnusedLocals": true,
+      "esModuleInterop": true,
+      "moduleResolution": "node",
+      "types": [
+        "node",
+        "jest",
+      ]
+    }
+  }
+  
