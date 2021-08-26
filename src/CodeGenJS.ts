@@ -9,7 +9,7 @@ const sectionCacheVarName = tempVarPrefix + "SectionCache"
 let tmpInx = 0 
 function generateConfigCodeInternal(customType: Type, customTypes: Type[]) : string {
     let code = ""
-    code = code + "function generate" + customType.name + "(sections, inx, constraints) {" + newLine
+    code = code + "function _generate" + customType.name + "(sections, inx, constraints) {" + newLine
     const sectionVal = tempVarPrefix + tmpInx++ 
     code = code + tab + `if (${sectionCacheVarName}[inx]) return ${sectionCacheVarName}[inx]` + newLine
     code = code + tab + "var " + sectionVal + " = sections[inx]" + newLine
@@ -28,7 +28,7 @@ function generateConfigCodeInternal(customType: Type, customTypes: Type[]) : str
                 code = code + tab + "var " + field.name + " = {}" + newLine
                 const keyVar = tempVarPrefix + tmpInx++
                 code = code + tab + "for (var " + keyVar + " in " + recordVal + ") {" + newLine
-                code = code + tab + tab + field.name + "[" + keyVar + "] = generate" + (field as RecordField).valueType + "(sections, " + recordVal + "[" + keyVar + "], constraints)" + newLine
+                code = code + tab + tab + field.name + "[" + keyVar + "] = _generate" + (field as RecordField).valueType + "(sections, " + recordVal + "[" + keyVar + "], constraints)" + newLine
                 code = code + tab + "}" + newLine
             }
         }
@@ -38,13 +38,13 @@ function generateConfigCodeInternal(customType: Type, customTypes: Type[]) : str
             code = code + tab + "var " + arrVal + "  = convertFieldValue(constraints, " + sectionVal + "[" + inx + "]) " + newLine
             code = code + tab + "var " + field.name + "  = []" + newLine
             code = code + tab + arrVal + ".forEach(ele => {" + newLine
-            code = code + tab + tab + field.name + ".push(generate" + actualType + "(sections, ele, constraints))" + newLine
+            code = code + tab + tab + field.name + ".push(_generate" + actualType + "(sections, ele, constraints))" + newLine
             code = code + tab + "})" + newLine
         }
         else {
             const objVal = tempVarPrefix + tmpInx++
             code = code + tab + "var " + objVal + "  = convertFieldValue(constraints, " + sectionVal + "[" + inx + "])" + newLine
-            code = code + tab + "var " + field.name + " = generate" + field.type + "(sections, " + objVal + ", constraints)" + newLine
+            code = code + tab + "var " + field.name + " = _generate" + field.type + "(sections, " + objVal + ", constraints)" + newLine
         }
     }
 
@@ -94,7 +94,7 @@ function generateConfigCode(customTypes: Type[]) : string {
 
 function generateMainCode(customTypes: Type[], entryType: string) {
     let code = ""
-    const mainFunc = "generate" + entryType
+    const mainFunc = "_generate" + entryType
     code = code + generateConfigCode(customTypes)
     code = code + newLine
     code = code + "function generateConfig(sections, cons)" + "{" + newLine

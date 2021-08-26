@@ -1,6 +1,6 @@
 {
   "name": "parallax-loader",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "typescript based parallax loader for ini configuration file",
   "main": "./dist/index.js",
   "dependencies": {
@@ -27,6 +27,14 @@
     "genTS": "node ./dist/gen.js ./example/Config.ts ./example/main.ini",
     "genJS": "node ./dist/gen.js ./example/Config.ts ./example/main.ini --js"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/microsoft/parallax-loader.git"
+  },
+  "bugs": {
+    "url": "https://github.com/microsoft/parallax-loader/issues"
+  },
+  "homepage": "https://github.com/microsoft/parallax-loader",
   "keywords": [
     "parallax",
     "codegen",

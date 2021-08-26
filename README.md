@@ -40,13 +40,13 @@ Arr&param3:value3=5,6,7
 Arr=4,5,6
 Map=A:2,B:3,C:4
 ```
-In the ini file above, each section corresponds to one specific interface. The key of each config line correponds to field of the interface with some constraints. For example, **Arr&param3:value3=2,3,4** means when **param3:value3** condition matches, its value is [2,3,4].
+In the ini file above, each section corresponds to one specific interface. Value of **_type** would be same as interface name. The key of each config line correponds to field of the interface with some constraints. For example, **Arr&param3:value3=2,3,4** means when **param3:value3** condition matches, its value is [2,3,4].
 <br/>
 And if there is reference to CustomType, it should be represented by section name for the the CustomType, like **Sub=sub** should point to section sub.
 <br/>
 Currently the library supports list and map (which is Record in typescript). List would be represented by string seperataed by ','. Map would be represented by string seperated by ',' as well and its key and value would be seperated by ':'.
 <br/>
-Please notice that, in current version, only line after trimmed starts with ';' would be treated as comment line.
+**Please notice that, in current version, only line after trimmed starts with ';' would be treated as comment line.**
 ## Constraint combination
 In parallax config, we could easily express constraint combination. Take the ini config below for example,
 ```ini
@@ -92,6 +92,7 @@ If **param1:value1&param2:value2** matches, **param1:value1** matches as well, t
     }
 }
 ```
+**Please notice that the library assumes that the resolved config would be parsed from the first section of the ini file.**
 ## Supported types
 Currently the library supports types as below in typescript,
 - string
@@ -149,6 +150,8 @@ Then you could load the ini file in code as below,
 const configLoadFunc = rquire('./Config.ini')
 const config = configLoadFunc(['reg:south'])
 ```
+Please check more in [Demo Folder](https://github.com/microsoft/parallax-loader/tree/main/demo).
+<br/>
 If you don't have any bundle tool, then you run the built gen.js with node.js, to generate output typescript file under the same folder of schema file, which would be ConfigGen.ts for the command below,
 ```
 node gen.js ./src/Config.ts ./src/Config.ini

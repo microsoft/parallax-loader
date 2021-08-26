@@ -592,7 +592,7 @@ function generateConstraintMapCode(constraintMap) {
 }
 function generateConfigCodeInternal$1(customType, customTypes) {
     var code = "";
-    code = code + "function generate" + customType.name + "(sections: ConstraintField[][], inx: number, constraints: number[]) : " + customType.name + "{" + newLine$1;
+    code = code + "function _generate" + customType.name + "(sections: ConstraintField[][], inx: number, constraints: number[]) : " + customType.name + "{" + newLine$1;
     var sectionVal = tempVarPrefix$1 + tmpInx$1++;
     code = code + tab$1 + ("if (" + sectionCacheVarName$1 + "[inx]) return " + sectionCacheVarName$1 + "[inx]") + newLine$1;
     code = code + tab$1 + "let " + sectionVal + " : ConstraintField[] = sections[inx]" + newLine$1;
@@ -611,7 +611,7 @@ function generateConfigCodeInternal$1(customType, customTypes) {
                 code = code + tab$1 + "let " + field.name + " : " + field.type + " = {}" + newLine$1;
                 var keyVar = tempVarPrefix$1 + tmpInx$1++;
                 code = code + tab$1 + "for (var " + keyVar + " in " + recordVal + ") {" + newLine$1;
-                code = code + tab$1 + tab$1 + field.name + "[" + keyVar + "] = generate" + field.valueType + "(sections, " + recordVal + "[" + keyVar + "], constraints)" + newLine$1;
+                code = code + tab$1 + tab$1 + field.name + "[" + keyVar + "] = _generate" + field.valueType + "(sections, " + recordVal + "[" + keyVar + "], constraints)" + newLine$1;
                 code = code + tab$1 + "}" + newLine$1;
             }
         }
@@ -621,13 +621,13 @@ function generateConfigCodeInternal$1(customType, customTypes) {
             code = code + tab$1 + "let " + arrVal + " : number[]" + " = convertFieldValue(constraints, " + sectionVal + "[" + inx + "]) as number[]" + newLine$1;
             code = code + tab$1 + "let " + field.name + " : " + field.type + " = []" + newLine$1;
             code = code + tab$1 + arrVal + ".forEach(ele => {" + newLine$1;
-            code = code + tab$1 + tab$1 + field.name + ".push(generate" + actualType + "(sections, ele, constraints))" + newLine$1;
+            code = code + tab$1 + tab$1 + field.name + ".push(_generate" + actualType + "(sections, ele, constraints))" + newLine$1;
             code = code + tab$1 + "})" + newLine$1;
         }
         else {
             var objVal = tempVarPrefix$1 + tmpInx$1++;
             code = code + tab$1 + "let " + objVal + " : number" + " = convertFieldValue(constraints, " + sectionVal + "[" + inx + "]) as number" + newLine$1;
-            code = code + tab$1 + "let " + field.name + " : " + field.type + " = generate" + field.type + "(sections, " + objVal + ", constraints)" + newLine$1;
+            code = code + tab$1 + "let " + field.name + " : " + field.type + " = _generate" + field.type + "(sections, " + objVal + ", constraints)" + newLine$1;
         }
     }
     code = code + tab$1 + ("return " + sectionCacheVarName$1 + "[inx] = {");
@@ -674,7 +674,7 @@ function generateConfigCode$1(customTypes, moduleName) {
 }
 function generateMainCode$1(customTypes, entryType, moduleName) {
     var code = "";
-    var mainFunc = "generate" + entryType;
+    var mainFunc = "_generate" + entryType;
     code = code + generateConfigCode$1(customTypes, moduleName);
     code = code + newLine$1;
     code = code + "export function generateConfig(constraints: string[]) : " + entryType + "{" + newLine$1;
@@ -713,7 +713,7 @@ var sectionCacheVarName = tempVarPrefix + "SectionCache";
 var tmpInx = 0;
 function generateConfigCodeInternal(customType, customTypes) {
     var code = "";
-    code = code + "function generate" + customType.name + "(sections, inx, constraints) {" + newLine;
+    code = code + "function _generate" + customType.name + "(sections, inx, constraints) {" + newLine;
     var sectionVal = tempVarPrefix + tmpInx++;
     code = code + tab + ("if (" + sectionCacheVarName + "[inx]) return " + sectionCacheVarName + "[inx]") + newLine;
     code = code + tab + "var " + sectionVal + " = sections[inx]" + newLine;
@@ -732,7 +732,7 @@ function generateConfigCodeInternal(customType, customTypes) {
                 code = code + tab + "var " + field.name + " = {}" + newLine;
                 var keyVar = tempVarPrefix + tmpInx++;
                 code = code + tab + "for (var " + keyVar + " in " + recordVal + ") {" + newLine;
-                code = code + tab + tab + field.name + "[" + keyVar + "] = generate" + field.valueType + "(sections, " + recordVal + "[" + keyVar + "], constraints)" + newLine;
+                code = code + tab + tab + field.name + "[" + keyVar + "] = _generate" + field.valueType + "(sections, " + recordVal + "[" + keyVar + "], constraints)" + newLine;
                 code = code + tab + "}" + newLine;
             }
         }
@@ -742,13 +742,13 @@ function generateConfigCodeInternal(customType, customTypes) {
             code = code + tab + "var " + arrVal + "  = convertFieldValue(constraints, " + sectionVal + "[" + inx + "]) " + newLine;
             code = code + tab + "var " + field.name + "  = []" + newLine;
             code = code + tab + arrVal + ".forEach(ele => {" + newLine;
-            code = code + tab + tab + field.name + ".push(generate" + actualType + "(sections, ele, constraints))" + newLine;
+            code = code + tab + tab + field.name + ".push(_generate" + actualType + "(sections, ele, constraints))" + newLine;
             code = code + tab + "})" + newLine;
         }
         else {
             var objVal = tempVarPrefix + tmpInx++;
             code = code + tab + "var " + objVal + "  = convertFieldValue(constraints, " + sectionVal + "[" + inx + "])" + newLine;
-            code = code + tab + "var " + field.name + " = generate" + field.type + "(sections, " + objVal + ", constraints)" + newLine;
+            code = code + tab + "var " + field.name + " = _generate" + field.type + "(sections, " + objVal + ", constraints)" + newLine;
         }
     }
     code = code + tab + ("return " + sectionCacheVarName + "[inx] = {");
@@ -791,7 +791,7 @@ function generateConfigCode(customTypes) {
 }
 function generateMainCode(customTypes, entryType) {
     var code = "";
-    var mainFunc = "generate" + entryType;
+    var mainFunc = "_generate" + entryType;
     code = code + generateConfigCode(customTypes);
     code = code + newLine;
     code = code + "function generateConfig(sections, cons)" + "{" + newLine;
