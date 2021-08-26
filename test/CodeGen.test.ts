@@ -212,7 +212,7 @@ function convertFieldValue(constraints: number[], field: ConstraintField) : numb
 	return 0
 }
 
-function generateMain(sections: ConstraintField[][], inx: number, constraints: number[]) : Main{
+function _generateMain(sections: ConstraintField[][], inx: number, constraints: number[]) : Main{
 	if (_temp_var_name_you_would_never_useSectionCache[inx]) return _temp_var_name_you_would_never_useSectionCache[inx]
 	let _temp_var_name_you_would_never_use0 : ConstraintField[] = sections[inx]
 	let Color : ColorEnum = convertFieldValue(constraints, _temp_var_name_you_would_never_use0[0]) as ColorEnum
@@ -221,31 +221,31 @@ function generateMain(sections: ConstraintField[][], inx: number, constraints: n
 	let _temp_var_name_you_would_never_use1 : Record<string, number> = convertFieldValue(constraints, _temp_var_name_you_would_never_use0[3]) as Record<string, number>
 	let Map : Record<string, Sub> = {}
 	for (var _temp_var_name_you_would_never_use2 in _temp_var_name_you_would_never_use1) {
-		Map[_temp_var_name_you_would_never_use2] = generateSub(sections, _temp_var_name_you_would_never_use1[_temp_var_name_you_would_never_use2], constraints)
+		Map[_temp_var_name_you_would_never_use2] = _generateSub(sections, _temp_var_name_you_would_never_use1[_temp_var_name_you_would_never_use2], constraints)
 	}
 	let Strs : string[] = convertFieldValue(constraints, _temp_var_name_you_would_never_use0[4]) as string[]
 	let _temp_var_name_you_would_never_use3 : number = convertFieldValue(constraints, _temp_var_name_you_would_never_use0[5]) as number
-	let Sub : Sub = generateSub(sections, _temp_var_name_you_would_never_use3, constraints)
+	let Sub : Sub = _generateSub(sections, _temp_var_name_you_would_never_use3, constraints)
 	let _temp_var_name_you_would_never_use4 : number[] = convertFieldValue(constraints, _temp_var_name_you_would_never_use0[6]) as number[]
 	let SubSubList : SubSub[] = []
 	_temp_var_name_you_would_never_use4.forEach(ele => {
-		SubSubList.push(generateSubSub(sections, ele, constraints))
+		SubSubList.push(_generateSubSub(sections, ele, constraints))
 	})
 	return _temp_var_name_you_would_never_useSectionCache[inx] = {Color : Color,Enabled : Enabled,Labels : Labels,Map : Map,Strs : Strs,Sub : Sub,SubSubList : SubSubList,}
 }
 
-function generateSub(sections: ConstraintField[][], inx: number, constraints: number[]) : Sub{
+function _generateSub(sections: ConstraintField[][], inx: number, constraints: number[]) : Sub{
 	if (_temp_var_name_you_would_never_useSectionCache[inx]) return _temp_var_name_you_would_never_useSectionCache[inx]
 	let _temp_var_name_you_would_never_use5 : ConstraintField[] = sections[inx]
 	let Cnt : number = convertFieldValue(constraints, _temp_var_name_you_would_never_use5[0]) as number
 	let Label : string = convertFieldValue(constraints, _temp_var_name_you_would_never_use5[1]) as string
 	let Map : Record<string, number> = convertFieldValue(constraints, _temp_var_name_you_would_never_use5[2]) as Record<string, number>
 	let _temp_var_name_you_would_never_use6 : number = convertFieldValue(constraints, _temp_var_name_you_would_never_use5[3]) as number
-	let SubSub : SubSub = generateSubSub(sections, _temp_var_name_you_would_never_use6, constraints)
+	let SubSub : SubSub = _generateSubSub(sections, _temp_var_name_you_would_never_use6, constraints)
 	return _temp_var_name_you_would_never_useSectionCache[inx] = {Cnt : Cnt,Label : Label,Map : Map,SubSub : SubSub,}
 }
 
-function generateSubSub(sections: ConstraintField[][], inx: number, constraints: number[]) : SubSub{
+function _generateSubSub(sections: ConstraintField[][], inx: number, constraints: number[]) : SubSub{
 	if (_temp_var_name_you_would_never_useSectionCache[inx]) return _temp_var_name_you_would_never_useSectionCache[inx]
 	let _temp_var_name_you_would_never_use7 : ConstraintField[] = sections[inx]
 	let Num : number = convertFieldValue(constraints, _temp_var_name_you_would_never_use7[0]) as number
@@ -256,7 +256,7 @@ function generateSubSub(sections: ConstraintField[][], inx: number, constraints:
 export function generateConfig(constraints: string[]) : Main{
 	_temp_var_name_you_would_never_useSectionCache = new Array(_temp_var_name_you_would_never_useConfigSections.length)
 	let cons = getConstraintValues(constraints, _temp_var_name_you_would_never_useConstraintMap)
-	let ret = generateMain(_temp_var_name_you_would_never_useConfigSections, 0, cons)
+	let ret = _generateMain(_temp_var_name_you_would_never_useConfigSections, 0, cons)
 	_temp_var_name_you_would_never_useSectionCache = []
 	return ret
 }

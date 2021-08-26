@@ -563,7 +563,7 @@ var sectionCacheVarName = tempVarPrefix + "SectionCache";
 var tmpInx = 0;
 function generateConfigCodeInternal(customType, customTypes) {
     var code = "";
-    code = code + "function generate" + customType.name + "(sections, inx, constraints) {" + newLine;
+    code = code + "function _generate" + customType.name + "(sections, inx, constraints) {" + newLine;
     var sectionVal = tempVarPrefix + tmpInx++;
     code = code + tab + ("if (" + sectionCacheVarName + "[inx]) return " + sectionCacheVarName + "[inx]") + newLine;
     code = code + tab + "var " + sectionVal + " = sections[inx]" + newLine;
@@ -582,7 +582,7 @@ function generateConfigCodeInternal(customType, customTypes) {
                 code = code + tab + "var " + field.name + " = {}" + newLine;
                 var keyVar = tempVarPrefix + tmpInx++;
                 code = code + tab + "for (var " + keyVar + " in " + recordVal + ") {" + newLine;
-                code = code + tab + tab + field.name + "[" + keyVar + "] = generate" + field.valueType + "(sections, " + recordVal + "[" + keyVar + "], constraints)" + newLine;
+                code = code + tab + tab + field.name + "[" + keyVar + "] = _generate" + field.valueType + "(sections, " + recordVal + "[" + keyVar + "], constraints)" + newLine;
                 code = code + tab + "}" + newLine;
             }
         }
@@ -592,13 +592,13 @@ function generateConfigCodeInternal(customType, customTypes) {
             code = code + tab + "var " + arrVal + "  = convertFieldValue(constraints, " + sectionVal + "[" + inx + "]) " + newLine;
             code = code + tab + "var " + field.name + "  = []" + newLine;
             code = code + tab + arrVal + ".forEach(ele => {" + newLine;
-            code = code + tab + tab + field.name + ".push(generate" + actualType + "(sections, ele, constraints))" + newLine;
+            code = code + tab + tab + field.name + ".push(_generate" + actualType + "(sections, ele, constraints))" + newLine;
             code = code + tab + "})" + newLine;
         }
         else {
             var objVal = tempVarPrefix + tmpInx++;
             code = code + tab + "var " + objVal + "  = convertFieldValue(constraints, " + sectionVal + "[" + inx + "])" + newLine;
-            code = code + tab + "var " + field.name + " = generate" + field.type + "(sections, " + objVal + ", constraints)" + newLine;
+            code = code + tab + "var " + field.name + " = _generate" + field.type + "(sections, " + objVal + ", constraints)" + newLine;
         }
     }
     code = code + tab + ("return " + sectionCacheVarName + "[inx] = {");
@@ -641,7 +641,7 @@ function generateConfigCode(customTypes) {
 }
 function generateMainCode(customTypes, entryType) {
     var code = "";
-    var mainFunc = "generate" + entryType;
+    var mainFunc = "_generate" + entryType;
     code = code + generateConfigCode(customTypes);
     code = code + newLine;
     code = code + "function generateConfig(sections, cons)" + "{" + newLine;
