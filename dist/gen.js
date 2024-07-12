@@ -14,14 +14,12 @@ function _interopNamespace(e) {
             var d = Object.getOwnPropertyDescriptor(e, k);
             Object.defineProperty(n, k, d.get ? d : {
                enumerable: true,
-               get: function () {
-                  return e[k];
-               }
+               get: function () { return e[k]; }
             });
          }
       });
    }
-   n['default'] = e;
+   n["default"] = e;
    return Object.freeze(n);
 }
 
@@ -49,11 +47,16 @@ function createCleanGraph(length) {
 }
 function DFS(typeInx, customTypes, cleanGraph, typeMap) {
     var customType = customTypes[typeInx];
+    var fieldsTypeSet = new Set();
     customType.fields.forEach(function (field) {
         var type = field.type;
         if (type.endsWith("[]")) {
             type = type.substr(0, type.length - 2);
         }
+        if (fieldsTypeSet.has(type)) {
+            return;
+        }
+        fieldsTypeSet.add(type);
         if (typeMap.has(type)) {
             var innerTypeInx = typeMap.get(type);
             if (cleanGraph[typeInx][innerTypeInx]) {
@@ -421,6 +424,10 @@ function parseRecord(strValue, nativeField, customTypes, sectionMap) {
     return ret;
 }
 function splitAndTrimList(strValue) {
+    strValue = strValue.trim();
+    if (strValue.length == 0) {
+        return [];
+    }
     var list = strValue.split(',');
     list.forEach(function (val, index, arr) {
         arr[index] = arr[index].trim();
@@ -570,11 +577,11 @@ var tmpInx$1 = 0;
 function generateConfigObjectCode(sections) {
     var sectionsStr = JSON.stringify(sections, null, 4);
     var code = "";
-    code = code + ("let " + configSectionVarName + " : ConstraintField[][] = ") + sectionsStr + newLine$1 + newLine$1;
+    code = code + "let ".concat(configSectionVarName, " : ConstraintField[][] = ") + sectionsStr + newLine$1 + newLine$1;
     return code;
 }
 function generateConstraintMapCode(constraintMap) {
-    var code = "let " + constraintMapVarName + ": Record<string, number> = {";
+    var code = "let ".concat(constraintMapVarName, ": Record<string, number> = {");
     constraintMap.forEach(function (value, key) {
         code = code + JSON.stringify(key) + " : " + value + ",";
     });
@@ -594,7 +601,7 @@ function generateConfigCodeInternal$1(customType, customTypes) {
     var code = "";
     code = code + "function _generate" + customType.name + "(sections: ConstraintField[][], inx: number, constraints: number[]) : " + customType.name + "{" + newLine$1;
     var sectionVal = tempVarPrefix$1 + tmpInx$1++;
-    code = code + tab$1 + ("if (" + sectionCacheVarName$1 + "[inx]) return " + sectionCacheVarName$1 + "[inx]") + newLine$1;
+    code = code + tab$1 + "if (".concat(sectionCacheVarName$1, "[inx]) return ").concat(sectionCacheVarName$1, "[inx]") + newLine$1;
     code = code + tab$1 + "let " + sectionVal + " : ConstraintField[] = sections[inx]" + newLine$1;
     for (var inx = 0; inx < customType.fields.length; ++inx) {
         var field = customType.fields[inx];
@@ -630,7 +637,7 @@ function generateConfigCodeInternal$1(customType, customTypes) {
             code = code + tab$1 + "let " + field.name + " : " + field.type + " = _generate" + field.type + "(sections, " + objVal + ", constraints)" + newLine$1;
         }
     }
-    code = code + tab$1 + ("return " + sectionCacheVarName$1 + "[inx] = {");
+    code = code + tab$1 + "return ".concat(sectionCacheVarName$1, "[inx] = {");
     for (var inx = 0; inx < customType.fields.length; ++inx) {
         code = code + customType.fields[inx].name + " : " + customType.fields[inx].name + ",";
     }
@@ -678,10 +685,10 @@ function generateMainCode$1(customTypes, entryType, moduleName) {
     code = code + generateConfigCode$1(customTypes, moduleName);
     code = code + newLine$1;
     code = code + "export function generateConfig(constraints: string[]) : " + entryType + "{" + newLine$1;
-    code = code + tab$1 + (sectionCacheVarName$1 + " = new Array(" + configSectionVarName + ".length)") + newLine$1;
-    code = code + tab$1 + ("let cons = getConstraintValues(constraints, " + constraintMapVarName + ")") + newLine$1;
-    code = code + tab$1 + "let ret = " + mainFunc + ("(" + configSectionVarName + ", 0, cons)") + newLine$1;
-    code = code + tab$1 + (sectionCacheVarName$1 + " = []") + newLine$1;
+    code = code + tab$1 + "".concat(sectionCacheVarName$1, " = new Array(").concat(configSectionVarName, ".length)") + newLine$1;
+    code = code + tab$1 + "let cons = getConstraintValues(constraints, ".concat(constraintMapVarName, ")") + newLine$1;
+    code = code + tab$1 + "let ret = " + mainFunc + "(".concat(configSectionVarName, ", 0, cons)") + newLine$1;
+    code = code + tab$1 + "".concat(sectionCacheVarName$1, " = []") + newLine$1;
     code = code + tab$1 + 'return ret' + newLine$1;
     code = code + "}" + newLine$1;
     code = code + newLine$1;
@@ -702,7 +709,7 @@ function generateTSCodeInternal(schemaContent, module, configContent) {
         sepInx = module.lastIndexOf('/');
     }
     var declareCode = "\n// The file is auto-generated, please don't modify it.\n\ntype ConstraintField = ConfigLine[]\n\ninterface ConfigLine {\n    c: number[];\n    v: number | boolean | string | number[] | boolean[] | string[] | number | boolean | string | number[] | boolean[] | string[] | Record<string, boolean> | Record<string, number> | Record<string, string>;\n}\n\n";
-    var sectionCacheCode = "let " + sectionCacheVarName$1 + " : Array<any> = []" + newLine$1 + newLine$1;
+    var sectionCacheCode = "let ".concat(sectionCacheVarName$1, " : Array<any> = []") + newLine$1 + newLine$1;
     return declareCode + sectionCacheCode + generateConstraintMapCode(parsedConfigObject.cons) + generateConfigObjectCode(parsedConfigObject.sections) + generateMainCode$1(customTypes, parsedConfigObject.entry, module.substring(sepInx + 1));
 }
 
@@ -715,7 +722,7 @@ function generateConfigCodeInternal(customType, customTypes) {
     var code = "";
     code = code + "function _generate" + customType.name + "(sections, inx, constraints) {" + newLine;
     var sectionVal = tempVarPrefix + tmpInx++;
-    code = code + tab + ("if (" + sectionCacheVarName + "[inx]) return " + sectionCacheVarName + "[inx]") + newLine;
+    code = code + tab + "if (".concat(sectionCacheVarName, "[inx]) return ").concat(sectionCacheVarName, "[inx]") + newLine;
     code = code + tab + "var " + sectionVal + " = sections[inx]" + newLine;
     for (var inx = 0; inx < customType.fields.length; ++inx) {
         var field = customType.fields[inx];
@@ -751,7 +758,7 @@ function generateConfigCodeInternal(customType, customTypes) {
             code = code + tab + "var " + field.name + " = _generate" + field.type + "(sections, " + objVal + ", constraints)" + newLine;
         }
     }
-    code = code + tab + ("return " + sectionCacheVarName + "[inx] = {");
+    code = code + tab + "return ".concat(sectionCacheVarName, "[inx] = {");
     for (var inx = 0; inx < customType.fields.length; ++inx) {
         code = code + customType.fields[inx].name + " : " + customType.fields[inx].name + ",";
     }
@@ -819,10 +826,10 @@ function generateJSCodeInternal(configContent, schemaContent) {
     });
     ret = ret + "var constraintMap = " + JSON.stringify(dict) + newLine;
     ret = ret + 'var constraints = resolveConstraints(constraintList, constraintMap)' + newLine;
-    ret = ret + ("var " + sectionCacheVarName + " = new Array(configData.length)") + newLine;
+    ret = ret + "var ".concat(sectionCacheVarName, " = new Array(configData.length)") + newLine;
     ret = ret + generateMainCode(customTypes, parsedConfigObject.entry);
     ret = ret + "var ret = generateConfig(configData, constraints)" + newLine;
-    ret = ret + (sectionCacheVarName + " = []") + newLine;
+    ret = ret + "".concat(sectionCacheVarName, " = []") + newLine;
     ret = ret + 'return ret' + newLine;
     ret = ret + "}" + newLine;
     return ret;

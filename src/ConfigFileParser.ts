@@ -252,6 +252,11 @@ function parseRecord(strValue: string, nativeField: Field, customTypes: Type[], 
 }
 
 function splitAndTrimList(strValue: string) : string[] {
+    strValue = strValue.trim()
+    if (strValue.length == 0) {
+        return []
+    }
+
     const list = strValue.split(',')
     list.forEach((val, index, arr) => {
         arr[index] = arr[index].trim()

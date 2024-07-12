@@ -32,6 +32,18 @@ let _temp_var_name_you_would_never_useConfigSections : ConstraintField[][] = [
         ],
         [
             {
+                "c": [],
+                "v": []
+            }
+        ],
+        [
+            {
+                "c": [],
+                "v": []
+            }
+        ],
+        [
+            {
                 "c": [
                     0
                 ],
@@ -81,6 +93,12 @@ let _temp_var_name_you_would_never_useConfigSections : ConstraintField[][] = [
             {
                 "c": [],
                 "v": 1
+            }
+        ],
+        [
+            {
+                "c": [],
+                "v": 2
             }
         ],
         [
@@ -212,39 +230,47 @@ function _generateMain(sections: ConstraintField[][], inx: number, constraints: 
 	if (_temp_var_name_you_would_never_useSectionCache[inx]) return _temp_var_name_you_would_never_useSectionCache[inx]
 	let _temp_var_name_you_would_never_use0 : ConstraintField[] = sections[inx]
 	let Color : ColorEnum = convertFieldValue(constraints, _temp_var_name_you_would_never_use0[0]) as ColorEnum
-	let Enabled : boolean = convertFieldValue(constraints, _temp_var_name_you_would_never_use0[1]) as boolean
-	let Labels : string[] = convertFieldValue(constraints, _temp_var_name_you_would_never_use0[2]) as string[]
-	let _temp_var_name_you_would_never_use1 : Record<string, number> = convertFieldValue(constraints, _temp_var_name_you_would_never_use0[3]) as Record<string, number>
+	let _temp_var_name_you_would_never_use1 : number[] = convertFieldValue(constraints, _temp_var_name_you_would_never_use0[1]) as number[]
+	let EmptyCustomList : Sub[] = []
+	_temp_var_name_you_would_never_use1.forEach(ele => {
+		EmptyCustomList.push(_generateSub(sections, ele, constraints))
+	})
+	let EmptyList : number[] = convertFieldValue(constraints, _temp_var_name_you_would_never_use0[2]) as number[]
+	let Enabled : boolean = convertFieldValue(constraints, _temp_var_name_you_would_never_use0[3]) as boolean
+	let Labels : string[] = convertFieldValue(constraints, _temp_var_name_you_would_never_use0[4]) as string[]
+	let _temp_var_name_you_would_never_use2 : Record<string, number> = convertFieldValue(constraints, _temp_var_name_you_would_never_use0[5]) as Record<string, number>
 	let Map : Record<string, Sub> = {}
-	for (var _temp_var_name_you_would_never_use2 in _temp_var_name_you_would_never_use1) {
-		Map[_temp_var_name_you_would_never_use2] = _generateSub(sections, _temp_var_name_you_would_never_use1[_temp_var_name_you_would_never_use2], constraints)
+	for (var _temp_var_name_you_would_never_use3 in _temp_var_name_you_would_never_use2) {
+		Map[_temp_var_name_you_would_never_use3] = _generateSub(sections, _temp_var_name_you_would_never_use2[_temp_var_name_you_would_never_use3], constraints)
 	}
-	let Strs : string[] = convertFieldValue(constraints, _temp_var_name_you_would_never_use0[4]) as string[]
-	let _temp_var_name_you_would_never_use3 : number = convertFieldValue(constraints, _temp_var_name_you_would_never_use0[5]) as number
-	let Sub : Sub = _generateSub(sections, _temp_var_name_you_would_never_use3, constraints)
-	let _temp_var_name_you_would_never_use4 : number[] = convertFieldValue(constraints, _temp_var_name_you_would_never_use0[6]) as number[]
+	let Strs : string[] = convertFieldValue(constraints, _temp_var_name_you_would_never_use0[6]) as string[]
+	let _temp_var_name_you_would_never_use4 : number = convertFieldValue(constraints, _temp_var_name_you_would_never_use0[7]) as number
+	let Sub : Sub = _generateSub(sections, _temp_var_name_you_would_never_use4, constraints)
+	let _temp_var_name_you_would_never_use5 : number = convertFieldValue(constraints, _temp_var_name_you_would_never_use0[8]) as number
+	let Sub1 : Sub = _generateSub(sections, _temp_var_name_you_would_never_use5, constraints)
+	let _temp_var_name_you_would_never_use6 : number[] = convertFieldValue(constraints, _temp_var_name_you_would_never_use0[9]) as number[]
 	let SubSubList : SubSub[] = []
-	_temp_var_name_you_would_never_use4.forEach(ele => {
+	_temp_var_name_you_would_never_use6.forEach(ele => {
 		SubSubList.push(_generateSubSub(sections, ele, constraints))
 	})
-	return _temp_var_name_you_would_never_useSectionCache[inx] = {Color : Color,Enabled : Enabled,Labels : Labels,Map : Map,Strs : Strs,Sub : Sub,SubSubList : SubSubList,}
+	return _temp_var_name_you_would_never_useSectionCache[inx] = {Color : Color,EmptyCustomList : EmptyCustomList,EmptyList : EmptyList,Enabled : Enabled,Labels : Labels,Map : Map,Strs : Strs,Sub : Sub,Sub1 : Sub1,SubSubList : SubSubList,}
 }
 
 function _generateSub(sections: ConstraintField[][], inx: number, constraints: number[]) : Sub{
 	if (_temp_var_name_you_would_never_useSectionCache[inx]) return _temp_var_name_you_would_never_useSectionCache[inx]
-	let _temp_var_name_you_would_never_use5 : ConstraintField[] = sections[inx]
-	let Cnt : number = convertFieldValue(constraints, _temp_var_name_you_would_never_use5[0]) as number
-	let Label : string = convertFieldValue(constraints, _temp_var_name_you_would_never_use5[1]) as string
-	let Map : Record<string, number> = convertFieldValue(constraints, _temp_var_name_you_would_never_use5[2]) as Record<string, number>
-	let _temp_var_name_you_would_never_use6 : number = convertFieldValue(constraints, _temp_var_name_you_would_never_use5[3]) as number
-	let SubSub : SubSub = _generateSubSub(sections, _temp_var_name_you_would_never_use6, constraints)
+	let _temp_var_name_you_would_never_use7 : ConstraintField[] = sections[inx]
+	let Cnt : number = convertFieldValue(constraints, _temp_var_name_you_would_never_use7[0]) as number
+	let Label : string = convertFieldValue(constraints, _temp_var_name_you_would_never_use7[1]) as string
+	let Map : Record<string, number> = convertFieldValue(constraints, _temp_var_name_you_would_never_use7[2]) as Record<string, number>
+	let _temp_var_name_you_would_never_use8 : number = convertFieldValue(constraints, _temp_var_name_you_would_never_use7[3]) as number
+	let SubSub : SubSub = _generateSubSub(sections, _temp_var_name_you_would_never_use8, constraints)
 	return _temp_var_name_you_would_never_useSectionCache[inx] = {Cnt : Cnt,Label : Label,Map : Map,SubSub : SubSub,}
 }
 
 function _generateSubSub(sections: ConstraintField[][], inx: number, constraints: number[]) : SubSub{
 	if (_temp_var_name_you_would_never_useSectionCache[inx]) return _temp_var_name_you_would_never_useSectionCache[inx]
-	let _temp_var_name_you_would_never_use7 : ConstraintField[] = sections[inx]
-	let Num : number = convertFieldValue(constraints, _temp_var_name_you_would_never_use7[0]) as number
+	let _temp_var_name_you_would_never_use9 : ConstraintField[] = sections[inx]
+	let Num : number = convertFieldValue(constraints, _temp_var_name_you_would_never_use9[0]) as number
 	return _temp_var_name_you_would_never_useSectionCache[inx] = {Num : Num,}
 }
 
