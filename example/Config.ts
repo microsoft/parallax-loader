@@ -4,8 +4,11 @@ export interface Main{
     Enabled: boolean;
     Sub: Sub;
     SubSubList: SubSub[];
+    EmptyList: number[];
+    EmptyCustomList: Sub[];
     Labels: string[];
     Strs: string[];
+    Sub1: Sub;
 }
 
 export interface Sub {

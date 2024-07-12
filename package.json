@@ -4,7 +4,7 @@
   "description": "typescript based parallax loader for ini configuration file",
   "main": "./dist/index.js",
   "dependencies": {
-    "typescript": "^4.3.4",
+    "typescript": "^4.9.5",
     "loader-utils": "^2.0.0"
   },
   "devDependencies": {
@@ -16,7 +16,7 @@
     "eslint": "^7.32.0",
     "jest": "^27.0.6",
     "rollup": "^2.53.2",
-    "rollup-plugin-typescript2": "^0.30.0",
+    "rollup-plugin-typescript2": "^0.36.0",
     "ts-jest": "^27.0.5"
   },
   "scripts": {

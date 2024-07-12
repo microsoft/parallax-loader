@@ -44,12 +44,18 @@ function createCleanGraph(length: number) : boolean[][] {
 
 function DFS(typeInx: number, customTypes: Type[], cleanGraph: boolean[][], typeMap: Map<string, number>) {
     const customType = customTypes[typeInx]
+    const fieldsTypeSet = new Set()
     customType.fields.forEach(field => {
         let type = field.type
         if (type.endsWith("[]")) {
             type = type.substr(0, type.length - 2)
         }
 
+        if (fieldsTypeSet.has(type)) {
+            return
+        }
+
+        fieldsTypeSet.add(type)
         if (typeMap.has(type)) {
             const innerTypeInx = typeMap.get(type)
             if (cleanGraph[typeInx][innerTypeInx]) {
